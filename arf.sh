@@ -2,8 +2,6 @@
 
 flash_rom() {
 
-  if touch /tmp > /dev/null 2>&1; then mkdir -p /tmp/arf && cd /tmp/arf; fi
-
   unzip "${1}" payload.bin
 
   payload-dumper-go \
@@ -74,10 +72,12 @@ proc_magisk() {
 
 }
 
+if touch /tmp; then mkdir -p /tmp/arf && cd /tmp/arf; fi
+
 case "${1}" in
   --magisk|-m) proc_magisk "${@}" ;;
   *.zip) flash_rom "${@}" ;;
   *) echo "${0} [path to rom]" ;;
 esac
 
-rm -fv *.{img,apk,bin}
+cd "${HOME}" && rm -rfv /tmp/arf
