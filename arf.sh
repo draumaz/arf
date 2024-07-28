@@ -72,7 +72,7 @@ proc_magisk() {
 
 }
 
-if touch /tmp; then mkdir -p /tmp/arf && cd /tmp/arf; fi
+if touch /tmp; then mkdir -pv /tmp/arf && cd /tmp/arf; fi
 
 case "${1}" in
   --magisk|-m) proc_magisk "${@}" ;;
