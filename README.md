@@ -4,4 +4,5 @@
 
 ### usage
 ```arf ${PATH_TO_ROM.zip}``` - flash a given rom onto a device
+
 ```arf --magisk ${PATH_TO_ROM}.zip``` - root a device
