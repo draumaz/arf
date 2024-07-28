@@ -25,7 +25,7 @@ flash_rom() {
   fastboot reboot-recovery
 
   sleep 10
-  echo "now, apply update from adb."
+  echo "\n[now, apply update from adb]\n"
   sleep 5
 
   # Apply ROM to target device
@@ -43,7 +43,7 @@ proc_magisk() {
   MAGISKURL="https://github.com/topjohnwu/Magisk/releases/download/v${MAGISKVER}/Magisk-v${MAGISKVER}.apk"
 
   test -e "./Magisk-v${MAGISKVER}.apk" || {
-    printf "downloading magisk...\n"
+    printf "\n[downloading magisk]\n"
     curl -fLO "${MAGISKURL}"
   }
 
@@ -56,14 +56,14 @@ proc_magisk() {
   adb install "`find . -name \*Magisk\*apk\* | tail -1`"
   adb shell "monkey -p com.topjohnwu.magisk 1"
 
-  printf "\npatch /sdcard/Download/${IMG}.img in Magisk and press enter.\n"
+  printf "\n[patch /sdcard/Download/${IMG}.img in Magisk and press enter]\n"
   read
 
   # ls -atr sorts newest at the bottom; tail that to get the right file
   MAGISKIMG="`adb shell ls -atr /sdcard/Download | grep -i magisk | tail -1`"
 
   adb pull "/sdcard/Download/${MAGISKIMG}"
-  adb shell "rm -f /sdcard/Download/${MAGISKIMG} /sdcard/Download/${IMG}.img"
+  adb shell "rm -fv /sdcard/Download/${MAGISKIMG} /sdcard/Download/${IMG}.img"
   adb reboot bootloader
 
   for PART in a b; do fastboot flash "${IMG}_${PART}" "${MAGISKIMG}"; done
